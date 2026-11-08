@@ -1,0 +1,10 @@
+{
+  "name": "Annette Campuzano Online Fitness",
+  "short_name": "Annette Fitness",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#101014",
+  "theme_color": "#101014",
+  "lang": "es",
+  "icons": []
+}

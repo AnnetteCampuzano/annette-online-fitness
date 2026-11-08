@@ -1,1 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111014"><meta name="description" content="Asesoramiento fitness personalizado de Annette Campuzano">
+<title>Annette Campuzano Online Fitness</title>
+<style>
+:root{--bg:#101014;--panel:#1d1b21;--line:#39343e;--pink:#e8b7c9;--silver:#c9c9d0;--muted:#aaa5af;--white:#faf8fb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--white);font:15px/1.5 system-ui,-apple-system,sans-serif}
+header{padding:12px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;position:sticky;top:0;background:#101014f5;z-index:2}
+header img{width:190px;height:62px;object-fit:contain;object-position:left}header .tag{margin-left:auto;color:var(--pink);font-size:11px;letter-spacing:.12em}
+main{max-width:880px;margin:auto;padding:24px 16px 80px}.panel,.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;margin:14px 0}
+h1,h2,h3{font-family:Georgia,serif;font-weight:500;margin:5px 0 12px}h1{font-size:29px}h2{font-size:23px}.muted{color:var(--muted)}.pink{color:var(--pink)}.silver{color:var(--silver)}
+input,textarea,select{width:100%;padding:13px;border:1px solid var(--line);border-radius:11px;background:#121116;color:var(--white);font:inherit;margin:6px 0 12px}
+button{border:0;border-radius:12px;padding:12px 16px;background:var(--pink);color:#171218;font-weight:700;font-size:14px;margin:4px 5px 4px 0}
+button.secondary{background:#302b34;color:var(--white);border:1px solid var(--line)}button.danger{background:#57303e;color:white}
+label{display:block;color:var(--silver);font-size:13px}.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:140px}
+.hidden{display:none!important}.status{padding:10px 12px;border-radius:10px;background:#28232b;color:var(--silver);margin:10px 0}.ok{color:#a8e0bd}.err{color:#ffb2b2}
+.item{border-top:1px solid var(--line);padding:12px 0}.item:first-child{border:0}.pill{display:inline-block;border:1px solid var(--line);border-radius:30px;padding:4px 9px;color:var(--pink);font-size:12px}
+small{color:var(--muted)}a{color:var(--pink)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+</style>
+</head>
+<body>
+<header><img src="logo-annette-campuzano.png" alt="Annette Campuzano"><span class="tag">ONLINE FITNESS</span></header>
+<main>
+<section id="login" class="panel">
+ <div class="pink" style="letter-spacing:.16em;font-size:11px">BIENVENIDA A TU ESPACIO FITNESS</div>
+ <h1>Entrena con propósito.</h1><p class="muted">Ingresa a tu cuenta para consultar tus rutinas, alimentación y progreso.</p>
+ <label>Correo electrónico</label><input id="email" type="email" autocomplete="email" placeholder="tu correo">
+ <label>Contraseña</label><input id="password" type="password" autocomplete="current-password" placeholder="Tu contraseña">
+ <button id="loginBtn">Iniciar sesión</button><button id="signupBtn" class="secondary">Crear cuenta</button>
+ <div id="loginMsg" class="status">Usa el correo y la contraseña registrados para tu asesoramiento.</div>
+</section>
 
+<section id="app" class="hidden">
+ <div class="row" style="align-items:center"><div><div class="pink">MI ESPACIO</div><h1 id="hello">Hola</h1></div><div style="text-align:right"><button id="logoutBtn" class="secondary">Cerrar sesión</button></div></div>
+ <div id="accessBox" class="status"></div>
+ <nav class="row">
+  <button class="secondary" data-tab="routine">Rutinas</button><button class="secondary" data-tab="meals">Alimentación</button><button class="secondary" data-tab="progress">Mi progreso</button><button id="adminTab" class="secondary hidden" data-tab="admin">Administración</button>
+ </nav>
+ <section id="routine" class="tab panel"><h2>Mis rutinas</h2><div id="routineList" class="muted">Cargando...</div></section>
+ <section id="meals" class="tab panel hidden"><h2>Mi alimentación</h2><div id="mealList" class="muted">Cargando...</div></section>
+ <section id="progress" class="tab panel hidden"><h2>Registrar progreso</h2><p class="muted">Tus registros son privados y solo tú y administración pueden consultarlos.</p>
+  <div class="row"><div><label>Peso (kg)</label><input id="weight" type="number" step=".1" placeholder="Ej. 65.5"></div><div><label>Cintura (cm)</label><input id="waist" type="number" step=".1" placeholder="Ej. 75"></div><div><label>Cadera (cm)</label><input id="hips" type="number" step=".1" placeholder="Ej. 100"></div></div>
+  <label>Notas</label><textarea id="notes" rows="3" placeholder="Cómo te sentiste esta semana..."></textarea><button id="saveProgress">Guardar registro</button><div id="progressMsg" class="status"></div><h3>Historial</h3><div id="progressList"></div>
+ </section>
+ <section id="admin" class="tab panel hidden"><h2>Panel de administración</h2><p class="muted">Solo visible para la cuenta autorizada como administradora.</p>
+  <h3>Clientas</h3><div id="clientList">Cargando...</div>
+  <h3>Asignar rutina</h3><label>Seleccionar clienta</label><select id="routineClient"></select><label>Nombre de rutina</label><input id="routineTitle" placeholder="Ej. Fuerza tren inferior"><div class="row"><div><label>Semana</label><select id="week"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div><label>Día</label><input id="day" placeholder="Lunes"></div></div><label>Instrucciones</label><textarea id="routineInstructions" rows="3" placeholder="Ejercicios, series, repeticiones..."></textarea><button id="assignRoutine">Guardar rutina</button>
+  <h3>Asignar plan de alimentación</h3><label>Clienta</label><select id="mealClient"></select><label>Contenido (puedes escribir las cinco comidas)</label><textarea id="mealContent" rows="6" placeholder="Desayuno:&#10;Media mañana:&#10;Almuerzo:&#10;Merienda:&#10;Cena:"></textarea><button id="assignMeal">Guardar alimentación</button>
+  <div id="adminMsg" class="status"></div>
+ </section>
+</section>
+<footer>ANNETTE CAMPUZANO · ONLINE FITNESS</footer>
+</main>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+const SUPABASE_URL = 'https://crxrcrsapxeikjrpefbb.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_TdGgbVkrqJaop5nhO2KVqg_0_3KZg7E';
+const db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const $ = id => document.getElementById(id);
+let currentUser=null, profile=null, clients=[];
+function msg(id,text,kind=''){const el=$(id);el.textContent=text;el.className='status '+kind;}
+function show(id){$(id).classList.remove('hidden')} function hide(id){$(id).classList.add('hidden')}
+function safe(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+$('loginBtn').onclick=async()=>{const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)msg('loginMsg',error.message,'err');else await loadSession();};
+$('signupBtn').onclick=async()=>{const email=$('email').value.trim(),password=$('password').value;if(password.length<8)return msg('loginMsg','La contraseña debe tener al menos 8 caracteres.','err');const {error}=await db.auth.signUp({email,password,options:{data:{full_name:email.split('@')[0]}}});msg('loginMsg',error?error.message:'Cuenta creada. Si el proyecto solicita confirmación, revisa tu correo antes de iniciar sesión.',error?'err':'ok');};
+$('logoutBtn').onclick=async()=>{await db.auth.signOut();hide('app');show('login');};
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));show(b.dataset.tab);if(b.dataset.tab==='progress')loadProgress();if(b.dataset.tab==='admin')loadAdmin();});
+async function loadSession(){const {data:{user}}=await db.auth.getUser();if(!user){show('login');hide('app');return;}currentUser=user;
+ let {data:p,error}=await db.from('profiles').select('*').eq('user_id',user.id).single();
+ if(error){msg('loginMsg','No se pudo leer tu perfil: '+error.message,'err');return;}
+ profile=p;hide('login');show('app');$('hello').textContent='Hola, '+(p.full_name||user.email);
+ const active=p.role==='admin'||(p.access_expires_at&&new Date(p.access_expires_at)>new Date());
+ msg('accessBox',p.role==='admin'?'Cuenta de administración activa.':active?'Tu acceso está vigente hasta '+new Date(p.access_expires_at).toLocaleDateString('es-BO')+'.':'Tu acceso no está activo. Contacta a administración para confirmar o renovar tu pago.',active?'ok':'');
+ if(p.role==='admin')show('adminTab');else hide('adminTab');
+ await loadRoutine();await loadMeals();
+}
+async function loadRoutine(){const box=$('routineList');if(profile.role!=='admin'&&(!profile.access_expires_at||new Date(profile.access_expires_at)<=new Date())){box.textContent='Tu acceso está vencido o pendiente de activación.';return;}
+ const {data,error}=await db.from('client_routines').select('id,title,week_number,day_label,instructions,starts_on,ends_on,routine_exercises(exercise_name,sets,reps,rest_seconds,video_url)').eq('client_id',currentUser.id).order('created_at',{ascending:false});
+ if(error){box.textContent=error.message;return;}box.innerHTML=data.length?data.map(r=>`<div class="item"><span class="pill">Semana ${r.week_number} · ${safe(r.day_label||'')}</span><h3>${safe(r.title)}</h3><p>${safe(r.instructions||'')}</p>${(r.routine_exercises||[]).map(e=>`<p>• ${safe(e.exercise_name)} — ${e.sets||'-'} series × ${safe(e.reps||'-')} ${e.video_url?`<a href="${safe(e.video_url)}" target="_blank" rel="noopener">Ver video</a>`:''}</p>`).join('')}</div>`).join(''):'Todavía no tienes rutinas asignadas.';}
+async function loadMeals(){const box=$('mealList');if(profile.role!=='admin'&&(!profile.access_expires_at||new Date(profile.access_expires_at)<=new Date())){box.textContent='Tu acceso está vencido o pendiente de activación.';return;}
+ const {data,error}=await db.from('meal_plans').select('*').eq('client_id',currentUser.id).order('created_at',{ascending:false});
+ if(error){box.textContent=error.message;return;}box.innerHTML=data.length?data.map(m=>`<div class="item"><h3>${safe(m.title)}</h3><pre style="white-space:pre-wrap;font:inherit">${safe(typeof m.plan_content==='string'?m.plan_content:JSON.stringify(m.plan_content,null,2))}</pre></div>`).join(''):'Todavía no tienes un plan de alimentación asignado.';}
+$('saveProgress').onclick=async()=>{if(!profile.access_expires_at||new Date(profile.access_expires_at)<=new Date())return msg('progressMsg','Tu acceso no está vigente. Contacta a administración.','err');
+ const payload={client_id:currentUser.id,weight_kg:$('weight').value||null,waist_cm:$('waist').value||null,hips_cm:$('hips').value||null,notes:$('notes').value||null};
+ const {error}=await db.from('progress_entries').insert(payload);msg('progressMsg',error?error.message:'Registro guardado correctamente.',error?'err':'ok');if(!error){$('notes').value='';loadProgress();}};
+async function loadProgress(){const {data,error}=await db.from('progress_entries').select('*').eq('client_id',currentUser.id).order('recorded_on',{ascending:false});$('progressList').innerHTML=error?safe(error.message):data.map(x=>`<div class="item">${safe(x.recorded_on)} · Peso: ${x.weight_kg??'-'} kg · Cintura: ${x.waist_cm??'-'} cm · Cadera: ${x.hips_cm??'-'} cm<br>${safe(x.notes||'')}</div>`).join('')||'Aún no hay registros.';}
+async function loadAdmin(){if(profile.role!=='admin')return;const {data,error}=await db.from('profiles').select('user_id,full_name,role,access_expires_at').order('created_at');if(error){$('clientList').textContent=error.message;return;}clients=data.filter(x=>x.role==='client');$('clientList').innerHTML=clients.map(c=>`<div class="item"><b>${safe(c.full_name||'Sin nombre')}</b><br><small>${safe(c.user_id)}</small><br>${c.access_expires_at?'Vence: '+new Date(c.access_expires_at).toLocaleDateString('es-BO'):'Sin acceso activo'} <button class="secondary" data-activate="${c.user_id}">Activar / renovar 30 días</button></div>`).join('')||'No hay clientas registradas.';document.querySelectorAll('[data-activate]').forEach(b=>b.onclick=async()=>{const {error}=await db.rpc('activate_client_30_days',{target_user_id:b.dataset.activate});msg('adminMsg',error?error.message:'Acceso activado o renovado por 30 días.',''+(error?'err':'ok'));loadAdmin();});['routineClient','mealClient'].forEach(id=>$(id).innerHTML=clients.map(c=>`<option value="${c.user_id}">${safe(c.full_name||c.user_id)}</option>`).join(''));}
+$('assignRoutine').onclick=async()=>{const {error}=await db.from('client_routines').insert({client_id:$('routineClient').value,title:$('routineTitle').value,week_number:Number($('week').value),day_label:$('day').value,instructions:$('routineInstructions').value});msg('adminMsg',error?error.message:'Rutina asignada.',''+(error?'err':'ok'));};
+$('assignMeal').onclick=async()=>{let content=$('mealContent').value;const {error}=await db.from('meal_plans').insert({client_id:$('mealClient').value,title:'Plan de alimentación',plan_content:{texto:content}});msg('adminMsg',error?error.message:'Plan de alimentación asignado.',''+(error?'err':'ok'));};
+db.auth.onAuthStateChange((_event,session)=>{if(session?.user)loadSession();});loadSession();
+</script>
+</body></html>
